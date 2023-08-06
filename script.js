@@ -92,15 +92,18 @@ const gameLogic = (() => {
 
 const displayControls = (() => {
   let grid = document.querySelectorAll(".cell");
-  let gameBoard = document.querySelector(".gameGrid");
+  let gameGrid = document.querySelector(".gameGrid");
   let cellSection = document.querySelector(".cells");
+
+  let turnDisplay = document.querySelector(".turn-notifier");
+  turnDisplay.textContent = ("It's " + gameLogic.getTurn() +"'s turn.");
 
   grid.forEach((cell) => {
     cell.addEventListener("click", () => {
       console.log(cell.id);
       gameLogic.setSymbol(cell.id);
       cell.textContent = gameLogic.getSymbolAtIndex(cell.id);
-
+      turnDisplay.textContent = ("It's " + gameLogic.getTurn() +"'s turn.");
       if (gameLogic.getGameStatus() != "Playing") {
         endGameDisplay(gameLogic.getGameStatus());
       }
@@ -124,15 +127,18 @@ const displayControls = (() => {
     });
 
     gameEndedBox.appendChild(gameEndedButton);
-    gameBoard.appendChild(gameEndedBox);
-    cellSection.classList.add("blurred");
+    gameGrid.appendChild(gameEndedBox);
+    cellSection.classList.add("noclick-blur");
   };
 
   const resetDisplay = () => {
-    gameBoard.innerHTML = "";
+    gameGrid.innerHTML = "";
+    let newTurn = document.createElement("div");
+    newTurn.classList.add("turn-notifier");
     let newContainer = document.createElement("div");
     newContainer.classList.add("cells");
-    gameBoard.appendChild(newContainer);
+    gameGrid.appendChild(newTurn);
+    gameGrid.appendChild(newContainer);
 
     for (i = 0; i < 9; i++) {
       let newBox = document.createElement("div");
@@ -142,15 +148,18 @@ const displayControls = (() => {
     }
 
     grid = document.querySelectorAll(".cell");
-    gameBoard = document.querySelector(".gameGrid");
+    gameGrid = document.querySelector(".gameGrid");
     cellSection = document.querySelector(".cells");
+    turnDisplay = document.querySelector(".turn-notifier");
+
+    turnDisplay.textContent = ("It's " + gameLogic.getTurn() +"'s turn.");
 
     grid.forEach((cell) => {
       cell.addEventListener("click", () => {
         console.log(cell.id);
         gameLogic.setSymbol(cell.id);
         cell.textContent = gameLogic.getSymbolAtIndex(cell.id);
-
+        turnDisplay.textContent = ("It's " + gameLogic.getTurn() +"'s turn.");
         if (gameLogic.getGameStatus() != "Playing") {
           endGameDisplay(gameLogic.getGameStatus());
         }
