@@ -91,72 +91,70 @@ const gameLogic = (() => {
 })();
 
 const displayControls = (() => {
+  let grid = document.querySelectorAll(".cell");
+  let gameBoard = document.querySelector(".gameGrid");
+  let cellSection = document.querySelector(".cells");
 
-    let grid = document.querySelectorAll('.cell');
-    let gameBoard = document.querySelector('.gameGrid');
-    let cellSection = document.querySelector('.cells');
+  grid.forEach((cell) => {
+    cell.addEventListener("click", () => {
+      console.log(cell.id);
+      gameLogic.setSymbol(cell.id);
+      cell.textContent = gameLogic.getSymbolAtIndex(cell.id);
 
-    grid.forEach(cell => {
-        cell.addEventListener('click', () =>{
-            console.log(cell.id);
-            gameLogic.setSymbol(cell.id);
-            cell.textContent = gameLogic.getSymbolAtIndex(cell.id);
-
-            if(gameLogic.getGameStatus() != "Playing"){
-                endGameDisplay(gameLogic.getGameStatus());
-            }
-        });
+      if (gameLogic.getGameStatus() != "Playing") {
+        endGameDisplay(gameLogic.getGameStatus());
+      }
     });
+  });
 
-    const endGameDisplay = (result) => {
-        let gameEndedBox = document.createElement('h1');
-        gameEndedBox.classList.add("game-over-box");
-        if(result == "X" || result == "O"){
-            gameEndedBox.textContent = (result + " Wins!");
-        }
-        else{
-            gameEndedBox.textContent = ("It's a tie!");
-        }
-
-        let gameEndedButton = document.createElement('button');
-        gameEndedButton.textContent = "Restart";
-        gameEndedButton.addEventListener('click', () => {
-            gameLogic.resetGame();
-            resetDisplay();
-        });
-
-        gameEndedBox.appendChild(gameEndedButton);
-        gameBoard.appendChild(gameEndedBox);
-        cellSection.classList.add("blurred");
-    };
-
-    const resetDisplay = () => {
-        gameBoard.innerHTML = "";
-        let newContainer = document.createElement("div");
-        newContainer.classList.add("cells");
-        gameBoard.appendChild(newContainer);
-        for(i = 0; i < 9; i++){
-            let newBox = document.createElement("div");
-            newBox.classList.add('cell');
-            newBox.setAttribute('id',i);
-            newContainer.appendChild(newBox);
-        }
-
-        grid = document.querySelectorAll('.cell');
-        gameBoard = document.querySelector('.gameGrid');
-        cellSection = document.querySelector('.cells');
-
-        grid.forEach(cell => {
-            cell.addEventListener('click', () =>{
-                console.log(cell.id);
-                gameLogic.setSymbol(cell.id);
-                cell.textContent = gameLogic.getSymbolAtIndex(cell.id);
-    
-                if(gameLogic.getGameStatus() != "Playing"){
-                    endGameDisplay(gameLogic.getGameStatus());
-                }
-            });
-        });
+  const endGameDisplay = (result) => {
+    let gameEndedBox = document.createElement("h1");
+    gameEndedBox.classList.add("game-over-box");
+    if (result == "X" || result == "O") {
+      gameEndedBox.textContent = result + " Wins!";
+    } else {
+      gameEndedBox.textContent = "It's a tie!";
     }
 
+    let gameEndedButton = document.createElement("button");
+    gameEndedButton.textContent = "Restart";
+    gameEndedButton.addEventListener("click", () => {
+      gameLogic.resetGame();
+      resetDisplay();
+    });
+
+    gameEndedBox.appendChild(gameEndedButton);
+    gameBoard.appendChild(gameEndedBox);
+    cellSection.classList.add("blurred");
+  };
+
+  const resetDisplay = () => {
+    gameBoard.innerHTML = "";
+    let newContainer = document.createElement("div");
+    newContainer.classList.add("cells");
+    gameBoard.appendChild(newContainer);
+
+    for (i = 0; i < 9; i++) {
+      let newBox = document.createElement("div");
+      newBox.classList.add("cell");
+      newBox.setAttribute("id", i);
+      newContainer.appendChild(newBox);
+    }
+
+    grid = document.querySelectorAll(".cell");
+    gameBoard = document.querySelector(".gameGrid");
+    cellSection = document.querySelector(".cells");
+
+    grid.forEach((cell) => {
+      cell.addEventListener("click", () => {
+        console.log(cell.id);
+        gameLogic.setSymbol(cell.id);
+        cell.textContent = gameLogic.getSymbolAtIndex(cell.id);
+
+        if (gameLogic.getGameStatus() != "Playing") {
+          endGameDisplay(gameLogic.getGameStatus());
+        }
+      });
+    });
+  };
 })();
