@@ -65,7 +65,7 @@
 }
 
 .game-over-box {
-  font-size: 10vw;
+  font-size: 5vw;
   position: absolute;
   display: flex;
   gap: 2px;
